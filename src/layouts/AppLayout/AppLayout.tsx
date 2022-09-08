@@ -6,6 +6,7 @@ import React, { FC } from 'react';
 import { useAuth } from '../../clientState/auth';
 
 // imports from components
+import Dashboard from '../../components/Dashboard/Dashboard';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
 // imports from constants
@@ -35,7 +36,7 @@ const AppLayout: FC = () => {
 
       <div className="bg-slate-50 flex-grow">
         { !isAuthenticated && <LoginForm /> }
-        { isAuthenticated && 'Dashboard'}
+        { isAuthenticated && <Dashboard />}
       </div>
 
       <footer className={PAGE_FOOTER}>
