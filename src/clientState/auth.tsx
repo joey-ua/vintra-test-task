@@ -37,6 +37,14 @@ const AUTH_SUCCESS = 'SUCCESS';
 const AUTH_FAILURE = 'FAILURE';
 const AUTH_DESTROY = 'DESTROY';
 
+const authToken = localStorage.getItem('authToken');
+
+const loadedState = {
+  ...initialState,
+  isAuthenticated: Boolean(authToken),
+  token: authToken,
+}
+
 export const AuthContext = React.createContext<ContextProps>({
   ...initialState,
   authenticate: () => new Promise((r) => r()),
@@ -58,7 +66,7 @@ const reducer = (state: AuthState, action: any) => ({
 
 // @ts-ignore
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, loadedState);
 
   const authenticate = (data: AuthParams) => {
     dispatch({ type: AUTH_REQUEST });
@@ -72,7 +80,8 @@ export const AuthContextProvider = ({ children }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        dispatch({ type: AUTH_SUCCESS, payload: { token: data.token } });
+        dispatch({ type: AUTH_SUCCESS, payload: { token: data.access_token } });
+        localStorage.setItem('authToken', data.access_token);
         return data;
       })
       .catch((error) => dispatch({ type: AUTH_FAILURE, payload: { error } }));
@@ -80,6 +89,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const destroyAuth = () => {
     dispatch({ type: AUTH_DESTROY });
+    localStorage.removeItem('authToken');
   };
 
   const value = {
