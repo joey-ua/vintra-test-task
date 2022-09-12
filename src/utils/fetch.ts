@@ -1,5 +1,17 @@
-export const fetchWithToken = (resource: any, token: string) => fetch(
-  resource,
-  { headers: { Authorization: "Bearer " + token } }
-)
-  .then((res) => res.json());
+export const fetchWithToken = (resource: any, options = {}) => {
+  const authToken = localStorage.getItem('authToken');
+
+  return fetch(
+    resource,
+    {
+      ...options,
+      headers: { Authorization: "Bearer " + authToken
+    } }
+  )
+    .then((response) => {
+      if (response.status === 401) throw new Error();
+      if (response.statusText === 'No Content') return null;
+
+      return response.json();
+    })
+}
