@@ -19,8 +19,10 @@ Also you will need to install Docker and run command:
 
 to bootstrap backend for this project
 
+To log in use this credentials:
+
+`username: test`
+`password: 1234`
+
 ## TODO:
-  - thermal sensor manipulation (create/update/remove)
-  - better UI and layout
   - some testing with Jest
-  - SWR fine-tune 
