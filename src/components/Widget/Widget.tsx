@@ -3,6 +3,7 @@ import { FC } from 'react'
 
 // imports from components
 import DeleteSensorButton from '../../components/DeleteSensorButton/DeleteSensorButton';
+import StatusSensorButton from '../../components/StatusSensorButton/StatusSensorButton';
 
 // imports from types
 import { Sensor } from '../../types/sensor';
@@ -29,6 +30,7 @@ const Widget: FC<Sensor> = ({ description, id, isActive = false }) => {
           <div className="font-medium pr-10 text-sm">{ description }</div>
         </div>
         <div className="flex">
+         <StatusSensorButton id={id} isActive={isActive} />
          <DeleteSensorButton id={id} />
         </div>
       </div>
